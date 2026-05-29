@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements — Debneil Dutt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── variables ── */
+        :root {
+            --bg:        #f5f4f0;
+            --surface:   #ffffff;
+            --border:    #e6e4de;
+            --text:      #1a1a1a;
+            --muted:     #7a7870;
+            --accent:    #2c4a6e;
+            --accent-bg: #edf1f7;
+            --shadow:    0 2px 12px rgba(0,0,0,0.06);
+            --shadow-h:  0 6px 24px rgba(0,0,0,0.11);
+            --toggle-bg: #e0ddd6;
+            --toggle-knob: #2c4a6e;
+        }
+
+        [data-theme="dark"] {
+            --bg:        #131416;
+            --surface:   #1d1f23;
+            --border:    #2c2f35;
+            --text:      #e8e6e0;
+            --muted:     #7e7c78;
+            --accent:    #7bafd4;
+            --accent-bg: #1e2630;
+            --shadow:    0 2px 12px rgba(0,0,0,0.35);
+            --shadow-h:  0 6px 24px rgba(0,0,0,0.5);
+            --toggle-bg: #2c2f35;
+            --toggle-knob: #7bafd4;
+        }
+
+        /* ── reset ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            transition: background 0.35s ease, color 0.35s ease;
+            min-height: 100vh;
+        }
+
+        /* ── load animation ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── layout ── */
+        .wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem;
+        }
+
+        /* ── top bar ── */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.4rem 1.5rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .topbar-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .topbar-name:hover { color: var(--accent); }
+
+        /* ── dark mode toggle ── */
+        .toggle-btn {
+            background: var(--toggle-bg);
+            border: none;
+            border-radius: 30px;
+            width: 48px;
+            height: 26px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle-btn::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--toggle-knob);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        [data-theme="dark"] .toggle-btn::after {
+            transform: translateX(22px);
+        }
+
+        .toggle-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* ── header ── */
+        .page-header {
+            padding: 2.5rem 0 2.8rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2.8rem;
+            transition: border-color 0.35s ease;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 7vw, 2.9rem);
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.15;
+            margin-bottom: 0.65rem;
+            letter-spacing: -0.01em;
+        }
+
+        .page-header p {
+            font-size: 14.5px;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 420px;
+        }
+
+        /* ── cards ── */
+        .section { margin-bottom: 1.3rem; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.6rem 1.8rem;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.25s ease, transform 0.25s ease,
+                        background 0.35s ease, border-color 0.35s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-h);
+            transform: translateY(-2px);
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .icon-wrap {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            transition: background 0.35s ease;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.08rem;
+            font-weight: 400;
+            color: var(--text);
+            letter-spacing: -0.005em;
+        }
+
+        ul.list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        ul.list li {
+            font-size: 13.5px;
+            font-weight: 300;
+            color: var(--text);
+            padding-left: 1rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        ul.list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.58em;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+        }
+
+        /* tag for standout items */
+        .tag {
+            display: inline-block;
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-size: 10.5px;
+            font-weight: 500;
+            padding: 1px 7px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.03em;
+            transition: background 0.35s ease, color 0.35s ease;
+        }
+
+        /* divider inside card */
+        .inner-sep {
+            margin: 1rem 0;
+            border: none;
+            border-top: 1px solid var(--border);
+            transition: border-color 0.35s ease;
+        }
+
+        .sub-label {
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+        }
+
+        /* two-col grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.1rem;
+        }
+
+        /* ── footer ── */
+        .page-footer {
+            margin-top: 3.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--muted);
+            text-align: center;
+            transition: border-color 0.35s ease;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 500px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .card { padding: 1.25rem 1.2rem; }
+            .topbar { padding: 1.2rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- top bar -->
+    <div class="topbar fade-up">
+        <a class="topbar-name" href="index.html">← Debneil Dutt</a>
+        <button class="toggle-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
+    </div>
+
+    <div class="wrapper">
+
+        <!-- header -->
+        <header class="page-header fade-up">
+            <h1>Achievements</h1>
+            <p>A summary of my work across sports, academics, leadership, and creative pursuits.</p>
+        </header>
+
+        <!-- Taekwondo & Athletics -->
+        <div class="section fade-up">
+            <div class="card">
+                <div class="card-head">
+                    <div class="icon-wrap">🥋</div>
+                    <h2 class="card-title">Taekwondo &amp; Athletics</h2>
+                </div>
+                <ul class="list">
+                    <li>Represented India in international taekwondo competitions with medal-winning performances <span class="tag">International</span></li>
+                    <li>Kukkiwon-certified Black Belt — Dan 1 &amp; Dan 2</li>
+                    <li>Secured multiple gold medals at national-level championships</li>
+                    <li>Consistent podium finishes across inter-school and national competitions</li>
+                </ul>
+                <hr class="inner-sep">
+                <p class="sub-label">Athletics</p>
+                <ul class="list">
+                    <li>Achievements in relay victories, sprint events, and high jump</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Team Sports -->
+        <div class="section fade-up">
+            <div class="card">
+                <div class="card-head">
+                    <div class="icon-wrap">⚽</div>
+                    <h2 class="card-title">Team Sports</h2>
+                </div>
+                <ul class="list">
+                    <li>Represented school in major inter-school football tournaments</li>
+                    <li>Active member of school teams across football, cricket, and hockey</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Academics -->
+        <div class="section fade-up">
+            <div class="card">
+                <div class="card-head">
+                    <div class="icon-wrap">🏆</div>
+                    <h2 class="card-title">Academics &amp; Competitions</h2>
+                </div>
+                <ul class="list">
+                    <li>Part of an international-winning team in a space settlement design competition — Asia level <span class="tag">International</span></li>
+                    <li>Qualified through national-level rounds for international participation</li>
+                    <li>Recognition in computer science and innovation events</li>
+                    <li>Academic merit awards</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Leadership -->
+        <div class="section fade-up">
+            <div class="card">
+                <div class="card-head">
+                    <div class="icon-wrap">🎯</div>
+                    <h2 class="card-title">Leadership &amp; Responsibility</h2>
+                </div>
+                <ul class="list">
+                    <li>Led the school dance team</li>
+                    <li>Coordinated and assisted in sports team selections and school events</li>
+                    <li>Managed technical and organizational responsibilities in school activities</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Arts + Recognition in two columns -->
+        <div class="grid-2">
+            <div class="section fade-up">
+                <div class="card" style="height:100%;">
+                    <div class="card-head">
+                        <div class="icon-wrap">🥁</div>
+                        <h2 class="card-title">Arts &amp; Creative Work</h2>
+                    </div>
+                    <ul class="list">
+                        <li>Trinity College London certified drummer — Rock &amp; Pop</li>
+                        <li>Performer in school band, dance, and dramatics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section fade-up">
+                <div class="card" style="height:100%;">
+                    <div class="card-head">
+                        <div class="icon-wrap">📰</div>
+                        <h2 class="card-title">Recognition &amp; Media</h2>
+                    </div>
+                    <ul class="list">
+                        <li>Recipient of an excellence award in taekwondo</li>
+                        <li>Featured in a newspaper for achievements and fitness insights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Independent Work -->
+        <div class="section fade-up">
+            <div class="card">
+                <div class="card-head">
+                    <div class="icon-wrap">✦</div>
+                    <h2 class="card-title">Independent Work</h2>
+                </div>
+                <ul class="list">
+                    <li>Released original music on major streaming platforms with thousands of streams</li>
+                    <li>Published a book available internationally</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="page-footer fade-up">
+            Debneil Dutt &mdash; Class 12
+        </footer>
+
+    </div>
+
+    <script>
+        // ── dark mode toggle ──
+        const toggle = document.getElementById('themeToggle');
+        const html   = document.documentElement;
+
+        // restore saved preference
+        const saved = localStorage.getItem('theme');
+        if (saved) html.setAttribute('data-theme', saved);
+
+        toggle.addEventListener('click', () => {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const next   = isDark ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+
+        // ── staggered load animation ──
+        const fadeItems = document.querySelectorAll('.fade-up');
+
+        fadeItems.forEach((el, i) => {
+            el.style.transitionDelay = (i * 75) + 'ms';
+        });
+
+        // double rAF ensures transitions are active before class is added
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                fadeItems.forEach(el => el.classList.add('visible'));
+            });
+        });
+    </script>
+</body>
+</html>

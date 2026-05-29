@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Information - Debneil Dutt</title>
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #0099cc;
+            --border-color: rgba(0, 212, 255, 0.3);
+            --shadow-color: rgba(0, 212, 255, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: linear-gradient(135deg, #f0f2f5 0%, #ffffff 50%, #e8eef7 100%);
+            --bg-secondary: rgba(0, 0, 0, 0.05);
+            --bg-card: rgba(0, 0, 0, 0.03);
+            --text-primary: #2c3e50;
+            --text-secondary: #555555;
+            --accent-primary: #3498db;
+            --accent-secondary: #2980b9;
+            --border-color: rgba(52, 152, 219, 0.3);
+            --shadow-color: rgba(52, 152, 219, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+            box-shadow: 0 0 15px var(--shadow-color);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 20px 50px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--text-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px var(--shadow-color)); }
+            to { filter: drop-shadow(0 0 20px var(--shadow-color)); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4);
+        }
+
+        .refresh-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--shadow-color), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .info-card:hover::before { opacity: 1; }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--shadow-color);
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 12px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            text-align: right;
+            flex: 1;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Special highlighting for important info */
+        .highlight {
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(78, 205, 196, 0.1));
+            border: 1px solid var(--accent-primary);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .status-online {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .status-offline {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Battery indicator */
+        .battery-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .battery-bar {
+            width: 30px;
+            height: 15px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 3px;
+            position: relative;
+            background: var(--bg-secondary);
+        }
+
+        .battery-fill {
+            height: 100%;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .battery-tip {
+            width: 3px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 0 2px 2px 0;
+            margin-left: 2px;
+        }
+
+        /* Network quality indicator */
+        .signal-bars {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            margin-left: 8px;
+        }
+
+        .signal-bar {
+            width: 4px;
+            background: var(--text-secondary);
+            border-radius: 1px;
+        }
+
+        .signal-bar:nth-child(1) { height: 6px; }
+        .signal-bar:nth-child(2) { height: 10px; }
+        .signal-bar:nth-child(3) { height: 14px; }
+        .signal-bar:nth-child(4) { height: 18px; }
+
+        .signal-strong .signal-bar { background: #4ecdc4; }
+        .signal-medium .signal-bar:nth-child(1),
+        .signal-medium .signal-bar:nth-child(2),
+        .signal-medium .signal-bar:nth-child(3) { background: #f39c12; }
+        .signal-weak .signal-bar:nth-child(1),
+        .signal-weak .signal-bar:nth-child(2) { background: #ff6b6b; }
+
+        /* Export button */
+        .export-btn {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .container { padding: 100px 15px 30px; }
+            .hero h1 { font-size: 2.5rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .nav-content { flex-direction: column; gap: 10px; }
+            .info-item { flex-direction: column; text-align: left; }
+            .info-value { text-align: left; margin-top: 5px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .info-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">Debneil Dutt</a>
+            <div style="display: flex; align-items: center;">
+                <a href="index.html" class="back-btn">← Back to Portfolio</a>
+                <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="hero">
+            <h1>📱 Device Information</h1>
+            <p>Comprehensive details about your device, browser, and network</p>
+            <button class="refresh-btn" onclick="refreshAllInfo()" id="refreshBtn">
+                🔄 Refresh Information
+            </button>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button class="export-btn" onclick="exportToJSON()">📄 Export as JSON</button>
+            <button class="export-btn" onclick="exportToText()">📝 Export as Text</button>
+        </div>
+
+        <div class="info-grid" id="infoGrid">
+            <!-- Information cards will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        let isDarkMode = true;
+        let deviceData = {};
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (isDarkMode) {
+                document.body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+            }
+            localStorage.setItem('deviceinfo-theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('deviceinfo-theme');
+            if (savedTheme === 'light') {
+                isDarkMode = false;
+                document.body.setAttribute('data-theme', 'light');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+            loadDeviceInfo();
+        });
+
+        // Get battery info
+        async function getBatteryInfo() {
+            try {
+                if ('getBattery' in navigator) {
+                    const battery = await navigator.getBattery();
+                    return {
+                        level: Math.round(battery.level * 100),
+                        charging: battery.charging,
+                        chargingTime: battery.chargingTime,
+                        dischargingTime: battery.dischargingTime
+                    };
+                }
+            } catch (error) {
+                console.log('Battery API not supported');
+            }
+            return null;
+        }
+
+        // Get public IP and location info
+        async function getPublicIPInfo() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                return {
+                    ip: data.ip,
+                    city: data.city,
+                    region: data.region,
+                    country: data.country_name,
+                    countryCode: data.country_code,
+                    timezone: data.timezone,
+                    isp: data.org,
+                    postal: data.postal,
+                    latitude: data.latitude,
+                    longitude: data.longitude
+                };
+            } catch (error) {
+                // Fallback to a simpler service
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return { ip: data.ip };
+                } catch (fallbackError) {
+                    return null;
+                }
+            }
+        }
+
+        // Get network information
+        function getNetworkInfo() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connection) {
+                return {
+                    effectiveType: connection.effectiveType,
+                    downlink: connection.downlink,
+                    rtt: connection.rtt,
+                    saveData: connection.saveData
+                };
+            }
+            return null;
+        }
+
+        // Get memory info (Chrome only)
+        function getMemoryInfo() {
+            if ('memory' in performance) {
+                return {
+                    used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
+                    total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
+                    limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024)
+                };
+            }
+            return null;
+        }
+
+        // Create battery indicator HTML
+        function createBatteryIndicator(batteryInfo) {
+            if (!batteryInfo) return 'Not available';
+            
+            const level = batteryInfo.level;
+            let fillColor = '#4ecdc4';
+            if (level < 20) fillColor = '#ff6b6b';
+            else if (level < 50) fillColor = '#f39c12';
+            
+            return `
+                <div class="battery-indicator">
+                    <span>${level}%</span>
+                    <div class="battery-bar">
+                        <div class="battery-fill" style="width: ${level}%; background: ${fillColor};"></div>
+                    </div>
+                    <div class="battery-tip"></div>
+                    <span>${batteryInfo.charging ? '⚡ Charging' : '🔋 ' + (level < 20 ? 'Low' : 'Normal')}</span>
+                </div>
+            `;
+        }
+
+        // Create signal indicator HTML
+        function createSignalIndicator(networkInfo) {
+            if (!networkInfo) return 'Unknown';
+            
+            let strength = 'weak';
+            if (networkInfo.downlink > 5) strength = 'strong';
+            else if (networkInfo.downlink > 1.5) strength = 'medium';
+            
+            return `
+                <div style="display: flex; align-items: center;">
+                    <span>${networkInfo.effectiveType || 'Unknown'}</span>
+                    <div class="signal-bars signal-${strength}">
+                        <div class="signal-bar"></div>
+                        <div class="signal-bar"></div>
+                        <div class="signal-bar"></div>
+                        <div class="signal-bar"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format bytes
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Load all device information
+        async function loadDeviceInfo() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = '<div class="loading"></div> Loading...';
+
+            // Get all information
+            const batteryInfo = await getBatteryInfo();
+            const publicIPInfo = await getPublicIPInfo();
+            const networkInfo = getNetworkInfo();
+            const memoryInfo = getMemoryInfo();
+
+            // Store data globally for export
+            deviceData = {
+                timestamp: new Date().toISOString(),
+                browser: {
+                    name: navigator.userAgent.split(') ')[0].split(' (')[0] || 'Unknown',
+                    version: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    languages: navigator.languages,
+                    cookieEnabled: navigator.cookieEnabled,
+                    onLine: navigator.onLine,
+                    doNotTrack: navigator.doNotTrack,
+                    vendor: navigator.vendor,
+                    product: navigator.product
+                },
+                system: {
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    maxTouchPoints: navigator.maxTouchPoints,
+                    oscpu: navigator.oscpu || 'Unknown'
+                },
+                screen: {
+                    width: screen.width,
+                    height: screen.height,
+                    availWidth: screen.availWidth,
+                    availHeight: screen.availHeight,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth,
+                    devicePixelRatio: window.devicePixelRatio,
+                    orientation: screen.orientation ? screen.orientation.type : 'Unknown'
+                },
+                window: {
+                    innerWidth: window.innerWidth,
+                    innerHeight: window.innerHeight,
+                    outerWidth: window.outerWidth,
+                    outerHeight: window.outerHeight,
+                    scrollX: window.scrollX,
+                    scrollY: window.scrollY,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                },
+                network: {
+                    ...publicIPInfo,
+                    ...networkInfo,
+                    onLine: navigator.onLine
+                },
+                battery: batteryInfo,
+                memory: memoryInfo,
+                permissions: {
+                    notifications: Notification.permission,
+                    geolocation: 'geolocation' in navigator ? 'Available' : 'Not available'
+                }
+            };
+
+            renderInfoCards();
+            
+            refreshBtn.disabled = false;
+            refreshBtn.innerHTML = '🔄 Refresh Information';
+        }
+
+        // Render information cards
+        function renderInfoCards() {
+            const grid = document.getElementById('infoGrid');
+            
+            const cards = [
+                {
+                    title: 'Network & Location',
+                    icon: '🌐',
+                    data: {
+                        'Public IP': deviceData.network.ip || 'Loading...',
+                        'Location': deviceData.network.city ? `${deviceData.network.city}, ${deviceData.network.country}` : 'Unknown',
+                        'ISP': deviceData.network.isp || 'Unknown',
+                        'Timezone': deviceData.network.timezone || deviceData.window.timezone,
+                        'Connection': deviceData.network.onLine ? 'Online' : 'Offline',
+                        'Network Type': deviceData.network.effectiveType ? createSignalIndicator(deviceData.network) : 'Unknown',
+                        'Download Speed': deviceData.network.downlink ? `${deviceData.network.downlink} Mbps` : 'Unknown',
+                        'Network Latency': deviceData.network.rtt ? `${deviceData.network.rtt} ms` : 'Unknown'
+                    }
+                },
+                {
+                    title: 'Browser Information',
+                    icon: '🌍',
+                    data: {
+                        'Browser': deviceData.browser.name,
+                        'Platform': deviceData.browser.platform,
+                        'Language': deviceData.browser.language,
+                        'Available Languages': deviceData.browser.languages ? deviceData.browser.languages.slice(0, 3).join(', ') : 'Unknown',
+                        'Cookies': deviceData.browser.cookieEnabled ? 'Enabled' : 'Disabled',
+                        'Do Not Track': deviceData.browser.doNotTrack === '1' ? 'Enabled' : 'Disabled',
+                        'Vendor': deviceData.browser.vendor || 'Unknown',
+                        'Online Status': deviceData.browser.onLine ? '<span class="status-online">Online</span>' : '<span class="status-offline">Offline</span>'
+                    }
+                },
+                {
+                    title: 'System Information',
+                    icon: '💻',
+                    data: {
+                        'Operating System': deviceData.system.platform,
+                        'CPU Cores': deviceData.system.hardwareConcurrency || 'Unknown',
+                        'Architecture': deviceData.system.oscpu || 'Unknown',
+                        'Max Touch Points': deviceData.system.maxTouchPoints || 'Not supported',
+                        'Memory Usage': deviceData.memory ? `${deviceData.memory.used} MB / ${deviceData.memory.total} MB` : 'Not available',
+                        'Memory Limit': deviceData.memory ? `${deviceData.memory.limit} MB` : 'Not available',
+                        'Battery': deviceData.battery ? createBatteryIndicator(deviceData.battery) : 'Not available'
+                    }
+                },
+                {
+                    title: 'Display Information',
+                    icon: '🖥️',
+                    data: {
+                        'Screen Resolution': `${deviceData.screen.width} × ${deviceData.screen.height}`,
+                        'Available Resolution': `${deviceData.screen.availWidth} × ${deviceData.screen.availHeight}`,
+                        'Window Size': `${deviceData.window.innerWidth} × ${deviceData.window.innerHeight}`,
+                        'Color Depth': `${deviceData.screen.colorDepth} bits`,
+                        'Pixel Depth': `${deviceData.screen.pixelDepth} bits`,
+                        'Device Pixel Ratio': deviceData.screen.devicePixelRatio,
+                        'Screen Orientation': deviceData.screen.orientation,
+                        'Outer Window Size': `${deviceData.window.outerWidth} × ${deviceData.window.outerHeight}`
+                    }
+                },
+                {
+                    title: 'Permissions & Features',
+                    icon: '🔐',
+                    data: {
+                        'Notifications': deviceData.permissions.notifications,
+                        'Geolocation API': deviceData.permissions.geolocation,
+                        'Local Storage': typeof(Storage) !== "undefined" ? 'Available' : 'Not available',
+                        'Session Storage': typeof(Storage) !== "undefined" ? 'Available' : 'Not available',
+                        'IndexedDB': 'indexedDB' in window ? 'Available' : 'Not available',
+                        'WebRTC': 'RTCPeerConnection' in window ? 'Available' : 'Not available',
+                        'WebGL': getWebGLSupport(),
+                        'Touch Support': 'ontouchstart' in window ? 'Available' : 'Not available'
+                    }
+                },
+                {
+                    title: 'Network Details',
+                    icon: '📡',
+                    data: {
+                        'Country Code': deviceData.network.countryCode || 'Unknown',
+                        'Region': deviceData.network.region || 'Unknown',
+                        'Postal Code': deviceData.network.postal || 'Unknown',
+                        'Coordinates': deviceData.network.latitude ? `${deviceData.network.latitude}, ${deviceData.network.longitude}` : 'Unknown',
+                        'Data Saver': deviceData.network.saveData ? 'Enabled' : 'Disabled',
+                        'Current Time': new Date().toLocaleString(),
+                        'UTC Offset': new Date().getTimezoneOffset() / -60 + ' hours',
+                        'User Agent': deviceData.browser.version.substring(0, 50) + '...'
+                    }
+                }
+            ];
+
+            grid.innerHTML = cards.map(card => `
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-icon">${card.icon}</span>
+                        <h3 class="card-title">${card.title}</h3>
+                    </div>
+                    ${Object.entries(card.data).map(([key, value]) => `
+                        <div class="info-item">
+                            <span class="info-label">${key}:</span>
+                            <span class="info-value">${value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+
+        // Get WebGL support
+        function getWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    }
+                    return 'Available';
+                }
+                return 'Not available';
+            } catch (e) {
+                return 'Not available';
+            }
+        }
+
+        // Refresh all information
+        async function refreshAllInfo() {
+            await loadDeviceInfo();
+        }
+
+        // Export to JSON
+        function exportToJSON() {
+            const dataStr = JSON.stringify(deviceData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `device-info-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Export to text
+        function exportToText() {
+            let textContent = `Device Information Report\n`;
+            textContent += `Generated: ${new Date().toLocaleString()}\n`;
+            textContent += `${'='.repeat(50)}\n\n`;
+
+            const sections = [
+                { title: 'Browser Information', data: deviceData.browser },
+                { title: 'System Information', data: deviceData.system },
+                { title: 'Screen Information', data: deviceData.screen },
+                { title: 'Window Information', data: deviceData.window },
+                { title: 'Network Information', data: deviceData.network },
+                { title: 'Battery Information', data: deviceData.battery },
+                { title: 'Memory Information', data: deviceData.memory }
+            ];
+
+            sections.forEach(section => {
+                if (section.data) {
+                    textContent += `${section.title}:\n`;
+                    textContent += `${'-'.repeat(section.title.length + 1)}\n`;
+                    Object.entries(section.data).forEach(([key, value]) => {
+                        textContent += `${key}: ${value}\n`;
+                    });
+                    textContent += '\n';
+                }
+            });
+
+            const dataBlob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `device-info-${new Date().toISOString().split('T')[0]}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

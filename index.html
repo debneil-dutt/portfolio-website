@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- UNCHANGED: charset must be first -->
+  <meta charset="UTF-8" />
+
+  <!-- MODIFIED: viewport retained, canonical + favicon added -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://yourwebsite.com" />
+  <!-- ADDED: replace /favicon.ico with your actual favicon path -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- MODIFIED: title updated for better identity recognition & keywords -->
+  <title>Debneil Dutt | Student, Athlete &amp; Tech Enthusiast</title>
+
+  <!-- MODIFIED: description expanded with name + key terms for E-E-A-T -->
+  <meta name="description" content="Official website of Debneil Dutt — Class 12 ISC student at La Martiniere for Boys, Kolkata. International taekwondo athlete, tech enthusiast, and web developer." />
+
+  <!-- UNCHANGED: author + robots -->
+  <meta name="author" content="Debneil Dutt" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- ADDED: Open Graph for richer social sharing -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://yourwebsite.com" />
+  <meta property="og:title"       content="Debneil Dutt | Student, Athlete &amp; Tech Enthusiast" />
+  <meta property="og:description" content="Official website of Debneil Dutt — international taekwondo athlete, student, and tech enthusiast from Kolkata." />
+  <!-- ADDED: replace with real OG image path once available -->
+  <meta property="og:image"       content="https://yourwebsite.com/profile.jpg" />
+  <meta property="og:locale"      content="en_IN" />
+
+  <!-- ADDED: Twitter / X card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Debneil Dutt | Student, Athlete &amp; Tech Enthusiast" />
+  <meta name="twitter:description" content="Official website of Debneil Dutt — international taekwondo athlete, student, and tech enthusiast from Kolkata." />
+
+  <!-- MODIFIED: enhanced JSON-LD Person schema for Google identity recognition -->
+  <!-- Add sitemap.xml and submit to Google Search Console once live -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Debneil Dutt",
+    "givenName": "Debneil",
+    "familyName": "Dutt",
+    "url": "https://yourwebsite.com",
+    "image": "https://yourwebsite.com/profile.jpg",
+    "jobTitle": "Student, Athlete &amp; Tech Enthusiast",
+    "description": "Debneil Dutt is a Class 12 ISC student at La Martiniere for Boys, Kolkata. International-level taekwondo athlete, national gold medallist, tech enthusiast, and web developer.",
+    "knowsAbout": ["Web Development","Computer Science","Athletics","Taekwondo","Football","Music","National Cadet Corps"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kolkata",
+      "addressCountry": "IN"
+    },
+    "email": "debneildutt.contact@gmail.com",
+    "sameAs": [
+      "https://www.linkedin.com/",
+      "https://www.instagram.com/",
+      "https://github.com/"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "La Martiniere for Boys"
+    }
+  }
+  </script>
+  <!-- ADDED: Compress images and use WebP for faster loading -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       TOKENS  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --bg:        #0d0d0f;
+      --bg-grad:   linear-gradient(160deg, #111114 0%, #0a0a0c 60%, #0d0d10 100%);
+      --bg2:       #131316;
+      --bg3:       #1a1a1e;
+      --bdr:       rgba(255,255,255,0.07);
+      --bdr2:      rgba(255,255,255,0.11);
+      --tx:        #eeecea;
+      --tx2:       #909099;
+      --tx3:       #505058;
+      --blue:      #5b9bd5;
+      --blue-dim:  rgba(91,155,213,0.12);
+      --blue-line: rgba(91,155,213,0.35);
+      --gold:      #d4af37;
+      --gold-dim:  rgba(212,175,55,0.10);
+      --gold-glow: rgba(212,175,55,0.22);
+      --serif:   'Instrument Serif', Georgia, serif;
+      --sans:    'Manrope', system-ui, sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="light"] {
+      --bg:       #f6f5f2;
+      --bg-grad:  linear-gradient(160deg, #f9f8f6 0%, #f4f3f0 100%);
+      --bg2:      #ffffff;
+      --bg3:      #ebebea;
+      --bdr:      rgba(0,0,0,0.07);
+      --bdr2:     rgba(0,0,0,0.11);
+      --tx:       #111111;
+      --tx2:      #666670;
+      --tx3:      #aaaaaa;
+      --blue:     #2a6db5;
+      --blue-dim: rgba(42,109,181,0.08);
+      --gold:     #b8900f;
+      --gold-dim: rgba(184,144,15,0.08);
+      --gold-glow:rgba(184,144,15,0.18);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESET  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
+      color: var(--tx);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    body:not(.touch) { cursor: none; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══════════════════════════════════════════════════
+       CURSOR  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #cur-dot {
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--tx);
+      transform: translate(-50%,-50%);
+      transition: background 0.2s ease;
+    }
+    #cur-ring {
+      position: fixed; pointer-events: none; z-index: 9998;
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid rgba(240,238,234,0.2);
+      transform: translate(-50%,-50%);
+      transition: width 0.22s var(--ease), height 0.22s var(--ease),
+                  border-color 0.22s ease, background 0.2s ease;
+    }
+    .touch #cur-dot, .touch #cur-ring { display: none; }
+
+    /* ═══════════════════════════════════════════════════
+       SCROLL PROGRESS  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #prog {
+      position: fixed; top: 0; left: 0; right: 0; height: 1.5px;
+      z-index: 9000; pointer-events: none; background: var(--bdr);
+    }
+    #prog-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+      transition: width 0.08s linear;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       LOADER  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #loader {
+      position: fixed; inset: 0; z-index: 99999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+    }
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .ld-name {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5.5vw, 3rem);
+      color: var(--tx);
+      letter-spacing: -0.015em;
+      display: flex; overflow: hidden;
+    }
+    .ld-name span {
+      display: inline-block; opacity: 0;
+      transform: translateY(105%);
+      animation: ldUp 0.65s var(--ease) forwards;
+    }
+    .ld-name span:nth-child(1) { animation-delay: 0.08s; }
+    .ld-name span:nth-child(2) { animation-delay: 0.14s; white-space: pre; }
+    .ld-name span:nth-child(3) { animation-delay: 0.20s; }
+    @keyframes ldUp { to { opacity: 1; transform: translateY(0); } }
+
+    .ld-bar {
+      width: 0; height: 1.5px; margin-top: 1.5rem;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+      animation: ldGrow 1s 0.5s var(--ease) forwards;
+      border-radius: 2px;
+    }
+    @keyframes ldGrow { to { width: 88px; } }
+
+    .ld-sub {
+      font-family: var(--mono); font-size: 0.64rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--tx3); margin-top: 1rem;
+      opacity: 0; animation: ldFade 0.5s 1s ease forwards;
+    }
+    @keyframes ldFade { to { opacity: 1; } }
+
+    /* ═══════════════════════════════════════════════════
+       WRAPPER  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #wrap { opacity: 0; transition: opacity 0.65s ease; }
+    #wrap.on { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════════
+       TOPBAR  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(13,13,15,0.82);
+      backdrop-filter: blur(18px) saturate(1.3);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+      border-bottom: 1px solid var(--bdr);
+      transition: background 0.3s ease;
+    }
+    [data-theme="light"] #topbar { background: rgba(246,245,242,0.88); }
+
+    .tb-name {
+      font-family: var(--serif); font-size: 1.05rem;
+      letter-spacing: -0.01em; color: var(--tx); flex-shrink: 0;
+      transition: color 0.18s ease;
+    }
+    .tb-name:hover { color: var(--blue); }
+
+    .tb-nav { display: flex; align-items: center; gap: 0.1rem; list-style: none; }
+
+    .tb-nav a {
+      position: relative; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.015em; color: var(--tx2);
+      padding: 0.4rem 0.82rem;
+      transition: color 0.18s ease;
+    }
+    .tb-nav a::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0.82rem; right: 0.82rem;
+      height: 1px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.24s var(--ease);
+    }
+    .tb-nav a:hover         { color: var(--tx); }
+    .tb-nav a.active        { color: var(--blue); }
+    .tb-nav a:hover::after,
+    .tb-nav a.active::after { transform: scaleX(1); }
+
+    .tb-right { display: flex; align-items: center; gap: 0.45rem; }
+
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 7px;
+      border: 1px solid var(--bdr2); background: transparent;
+      color: var(--tx2); font-size: 0.85rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .icon-btn:hover { color: var(--blue); border-color: var(--blue-line); background: var(--blue-dim); }
+
+    .hbg {
+      display: none; flex-direction: column; gap: 4px;
+      width: 32px; height: 32px; border-radius: 7px;
+      border: 1px solid var(--bdr2); background: transparent;
+      cursor: pointer; align-items: center; justify-content: center;
+      transition: border-color 0.18s ease;
+    }
+    .hbg:hover { border-color: var(--blue-line); }
+    .hbg-bar {
+      display: block; width: 14px; height: 1.5px;
+      background: var(--tx2); border-radius: 1px;
+      transition: transform 0.22s ease, opacity 0.22s ease, background 0.18s ease;
+    }
+    .hbg:hover .hbg-bar { background: var(--tx); }
+    .hbg.open .hbg-bar:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+    .hbg.open .hbg-bar:nth-child(2) { opacity: 0; }
+    .hbg.open .hbg-bar:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+    #drawer {
+      position: fixed; top: 56px; left: 0; right: 0;
+      background: var(--bg2); border-bottom: 1px solid var(--bdr);
+      padding: 0.25rem 0;
+      transform: translateY(-6px); opacity: 0; visibility: hidden;
+      transition: transform 0.22s var(--ease), opacity 0.22s ease, visibility 0.22s ease;
+      z-index: 799;
+    }
+    #drawer.open { transform: translateY(0); opacity: 1; visibility: visible; }
+    #drawer a {
+      display: block; padding: 0.72rem 1.5rem;
+      font-size: 0.85rem; font-weight: 500; color: var(--tx2);
+      border-bottom: 1px solid var(--bdr);
+      transition: color 0.15s ease, background 0.15s ease, padding-left 0.18s ease;
+    }
+    #drawer a:last-child { border-bottom: none; }
+    #drawer a:hover { color: var(--blue); background: var(--blue-dim); padding-left: 2rem; }
+
+    /* ═══════════════════════════════════════════════════
+       HERO  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 7rem 2.5rem 5rem;
+      max-width: 1080px; margin: 0 auto;
+    }
+
+    .hero-eye {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 1.75rem;
+      display: flex; align-items: center; gap: 0.7rem;
+    }
+    .hero-eye::before {
+      content: ''; width: 22px; height: 1px;
+      background: var(--blue); flex-shrink: 0;
+    }
+
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(3.4rem, 8vw, 7rem);
+      font-weight: 400; line-height: 1.0;
+      letter-spacing: -0.025em; color: var(--tx);
+      margin-bottom: 2rem;
+    }
+    .hero-h1 em { font-style: italic; color: var(--blue); }
+
+    .hero-bio {
+      font-size: 0.95rem; font-weight: 400; color: var(--tx2);
+      max-width: 460px; line-height: 1.78; margin-bottom: 2.25rem;
+    }
+
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 3rem;
+    }
+    .pill {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.3rem 0.78rem; border: 1px solid var(--bdr2);
+      border-radius: 100px; color: var(--tx3);
+      transition: color 0.18s ease, border-color 0.18s ease,
+                  background 0.18s ease, transform 0.18s var(--ease);
+      cursor: default;
+    }
+    .pill:hover {
+      color: var(--blue); border-color: var(--blue-line);
+      background: var(--blue-dim); transform: scale(1.05);
+    }
+
+    .hero-down {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--tx2);
+      transition: color 0.18s ease, gap 0.2s ease;
+    }
+    .hero-down:hover { color: var(--blue); gap: 0.65rem; }
+
+    /* ═══════════════════════════════════════════════════
+       SECTION SHELL  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    .sec {
+      max-width: 1080px; margin: 0 auto;
+      padding: 5.5rem 2.5rem;
+      border-top: 1px solid var(--bdr);
+    }
+
+    .sec-label {
+      font-family: var(--mono); font-size: 0.66rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--tx3); margin-bottom: 2.25rem;
+    }
+
+    .sec-h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 400; line-height: 1.15; color: var(--tx);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       WORK GRID  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    .work-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--bdr); border-radius: 10px; overflow: hidden;
+      margin-top: 2.25rem;
+    }
+
+    .wcard {
+      display: block; padding: 1.65rem 1.5rem;
+      border-right: 1px solid var(--bdr);
+      border-bottom: 1px solid var(--bdr);
+      background: var(--bg2); position: relative; overflow: hidden;
+      transition: background 0.22s ease, transform 0.22s var(--ease),
+                  box-shadow 0.22s ease;
+    }
+    .wcard:nth-child(3n)             { border-right: none; }
+    .wcard:nth-child(4),
+    .wcard:nth-child(5),
+    .wcard:nth-child(6)              { border-bottom: none; }
+
+    .wcard:hover {
+      background: var(--bg3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.25);
+      z-index: 1;
+    }
+
+    .wcard::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; bottom: 0; width: 2px;
+      background: var(--blue); transform: scaleY(0);
+      transform-origin: bottom; transition: transform 0.25s var(--ease);
+    }
+    .wcard:hover::before { transform: scaleY(1); }
+
+    .wcard-num {
+      font-family: var(--mono); font-size: 0.6rem;
+      letter-spacing: 0.08em; color: var(--tx3); margin-bottom: 1.1rem;
+    }
+    .wcard-icon { font-size: 1.25rem; margin-bottom: 0.8rem; display: block; line-height: 1; }
+
+    .wcard h3 {
+      font-family: var(--sans); font-size: 0.86rem; font-weight: 600;
+      color: var(--tx); margin-bottom: 0.35rem; letter-spacing: -0.01em;
+      transition: color 0.18s ease;
+    }
+    .wcard:hover h3 { color: var(--blue); }
+
+    .wcard p { font-size: 0.76rem; color: var(--tx3); line-height: 1.55; }
+
+    .wcard-arr {
+      position: absolute; bottom: 1.4rem; right: 1.4rem;
+      font-size: 0.78rem; color: var(--blue);
+      opacity: 0; transform: translate(-4px, 4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .wcard:hover .wcard-arr { opacity: 1; transform: translate(0,0); }
+
+    /* ═══════════════════════════════════════════════════
+       ABOUT  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.9fr;
+      gap: 4.5rem; align-items: start; margin-top: 2.5rem;
+    }
+
+    .about-meta { display: flex; flex-direction: column; }
+
+    .am-row {
+      padding: 0.85rem 0; border-bottom: 1px solid var(--bdr);
+      transition: background 0.15s ease;
+    }
+    .am-row:first-child { border-top: 1px solid var(--bdr); }
+    .am-row:hover { background: var(--blue-dim); padding-left: 0.5rem; transition: padding-left 0.2s ease, background 0.15s ease; }
+
+    .am-label {
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--tx3); margin-bottom: 0.25rem;
+    }
+    .am-val { font-size: 0.84rem; font-weight: 500; color: var(--tx2); }
+
+    .about-text {
+      font-size: 1rem; font-weight: 300; line-height: 1.85;
+      color: var(--tx2); margin-top: 0.2rem;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TIMELINE — HORIZONTAL ZIGZAG  [MODIFIED]
+       Replaces the old vertical .tl-spine / .tl-list layout.
+    ═══════════════════════════════════════════════════ */
+
+    /* Section wrapper keeps the original .sec class for padding/border */
+    #journey { overflow: hidden; } /* prevent horizontal scroll bleed */
+
+    /* ── Scrollable track on desktop ── */
+    .tl-track-outer {
+      position: relative;
+      margin-top: 3rem;
+      overflow-x: auto;
+      overflow-y: visible;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-dim) transparent;
+      /* extra vertical room so top cards don't clip */
+      padding-bottom: 0.5rem;
+    }
+    .tl-track-outer::-webkit-scrollbar { height: 3px; }
+    .tl-track-outer::-webkit-scrollbar-track { background: transparent; }
+    .tl-track-outer::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+    /* ── Inner track — holds axis + items ── */
+    .tl-track {
+      position: relative;
+      display: flex;
+      align-items: center;          /* vertically centre the axis row */
+      min-width: max-content;       /* expand for overflow scroll */
+      padding: 180px 3rem 180px;    /* vertical breathing room for cards */
+      gap: 0;
+    }
+
+    /* ── Central horizontal axis line ── */
+    .tl-axis {
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%;
+      height: 1px;
+      transform: translateY(-50%);
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--gold) 4%,
+        var(--gold) 96%,
+        transparent 100%
+      );
+      opacity: 0;
+      transition: opacity 0.8s ease 0.2s;
+    }
+    .tl-track.revealed .tl-axis { opacity: 0.35; }
+
+    /* ── Each milestone item ── */
+    .tl-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;       /* column width per milestone */
+      flex-shrink: 0;
+    }
+
+    /* dot sits ON the axis */
+    .tl-dot {
+      position: relative; z-index: 2;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--bg2);
+      border: 1.5px solid var(--gold);
+      flex-shrink: 0;
+      transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s var(--ease);
+      /* pulse ring */
+      box-shadow: 0 0 0 0 var(--gold-glow);
+    }
+    .tl-item:hover .tl-dot {
+      background: var(--gold);
+      box-shadow: 0 0 0 5px var(--gold-glow), 0 0 14px var(--gold-glow);
+      transform: scale(1.35);
+    }
+
+    /* connector: vertical line between dot and card */
+    .tl-connector {
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      opacity: 0.4;
+      flex-shrink: 0;
+      transition: opacity 0.2s ease;
+    }
+    .tl-item:hover .tl-connector { opacity: 0.75; }
+
+    /* Card */
+    .tl-card {
+      background: var(--bg2);
+      border: 1px solid var(--bdr2);
+      border-radius: 8px;
+      padding: 0.85rem 0.9rem;
+      width: 108px;
+      text-align: center;
+      transition: background 0.22s ease, border-color 0.22s ease,
+                  transform 0.28s var(--ease), box-shadow 0.28s ease;
+    }
+    .tl-item:hover .tl-card {
+      background: var(--bg3);
+      border-color: rgba(212,175,55,0.35);
+      box-shadow: 0 4px 20px rgba(212,175,55,0.12), 0 0 0 1px rgba(212,175,55,0.08);
+    }
+
+    .tl-year {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+    .tl-title {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--tx);
+      line-height: 1.35;
+      display: block;
+    }
+    .tl-sub {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--tx3);
+      letter-spacing: 0.03em;
+      margin-top: 0.2rem;
+      display: block;
+      line-height: 1.3;
+    }
+
+    /* ── ZIGZAG: even items go above, odd below ── */
+
+    /* ABOVE items: connector grows upward, card sits above dot */
+    .tl-item.above {
+      flex-direction: column-reverse; /* card, connector, dot — bottom to top */
+    }
+    .tl-item.above .tl-connector {
+      height: 44px;
+      background: linear-gradient(to top, var(--gold), transparent);
+    }
+    /* push card upward slightly for hover */
+    .tl-item.above:hover .tl-card { transform: translateY(-3px); }
+
+    /* BELOW items: connector grows downward, card sits below dot */
+    .tl-item.below {
+      flex-direction: column; /* dot, connector, card */
+    }
+    .tl-item.below .tl-connector {
+      height: 44px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .tl-item.below:hover .tl-card { transform: translateY(3px); }
+
+    /* ── Upcoming milestone style ── */
+    .tl-item.upcoming .tl-dot  { border-style: dashed; opacity: 0.55; }
+    .tl-item.upcoming .tl-year { opacity: 0.55; }
+    .tl-item.upcoming .tl-title{ color: var(--tx2); }
+
+    /* ── Scroll-reveal per item ── */
+    .tl-item {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+    }
+    .tl-item.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Mobile: single-column compact zigzag ── */
+    @media (max-width: 640px) {
+      .tl-track-outer {
+        overflow-x: hidden;   /* no horizontal scroll on mobile */
+      }
+      .tl-track {
+        min-width: unset;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+        gap: 0;
+      }
+
+      /* Hide the horizontal axis on mobile */
+      .tl-axis { display: none; }
+
+      /* Each item becomes a left-right pair row */
+      .tl-item,
+      .tl-item.above,
+      .tl-item.below {
+        flex-direction: row;
+        align-items: flex-start;
+        width: 100%;
+        padding: 0.65rem 0;
+        border-bottom: 1px solid var(--bdr);
+        gap: 0;
+      }
+      .tl-item:last-child { border-bottom: none; }
+
+      /* dot column */
+      .tl-dot {
+        margin: 0.25rem 0 0 0;
+        flex-shrink: 0;
+      }
+
+      /* connector becomes a vertical spacer between dot and card edge */
+      .tl-connector {
+        width: 20px; height: 1px;
+        background: linear-gradient(to right, var(--gold), transparent) !important;
+        margin-top: 0.5rem;
+        flex-shrink: 0;
+        opacity: 0.4;
+      }
+
+      /* card takes remaining width */
+      .tl-card {
+        width: auto;
+        flex: 1;
+        text-align: left;
+        padding: 0 0 0 0.75rem;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+      .tl-item:hover .tl-card {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        transform: none;
+      }
+
+      /* zigzag visual cue on mobile: alternate indent */
+      .tl-item.above { padding-left: 1.25rem; }
+      .tl-item.below { padding-left: 0; }
+
+      .tl-item:hover .tl-dot {
+        transform: scale(1.25);
+      }
+    }
+
+    /* ─── tablet tweaks ─── */
+    @media (min-width: 641px) and (max-width: 900px) {
+      .tl-item { width: 100px; }
+      .tl-card  { width: 92px; }
+      .tl-track { padding: 160px 2rem 160px; }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CONTACT  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    .contact-row {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 3rem;
+      flex-wrap: wrap; margin-top: 2.5rem;
+    }
+    .contact-head {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 400; line-height: 1.15;
+    }
+    .contact-head em { font-style: italic; color: var(--blue); }
+
+    .contact-side { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .email-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--blue);
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      border-bottom: 1px solid transparent; padding-bottom: 2px;
+      transition: color 0.18s ease, border-color 0.18s ease;
+    }
+    .email-link:hover { color: var(--tx); border-color: var(--blue); }
+
+    .contact-note {
+      font-size: 0.76rem; color: var(--tx3); line-height: 1.65; max-width: 230px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    /* ADDED: footer social links */
+    .ft-social {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .ft-social a {
+      font-family: var(--mono); font-size: 0.63rem;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--tx3);
+      transition: color 0.18s ease;
+    }
+    .ft-social a:hover { color: var(--blue); }
+
+    footer {
+      max-width: 1080px; margin: 0 auto;
+      padding: 1.6rem 2.5rem;
+      border-top: 1px solid var(--bdr);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .ft-name { font-family: var(--serif); font-size: 0.9rem; color: var(--tx2); }
+    .ft-copy  { font-family: var(--mono); font-size: 0.63rem; color: var(--tx3); letter-spacing: 0.07em; }
+
+    /* ═══════════════════════════════════════════════════
+       REVEAL  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .stagger .reveal:nth-child(1) { transition-delay: 0.00s; }
+    .stagger .reveal:nth-child(2) { transition-delay: 0.07s; }
+    .stagger .reveal:nth-child(3) { transition-delay: 0.14s; }
+    .stagger .reveal:nth-child(4) { transition-delay: 0.21s; }
+    .stagger .reveal:nth-child(5) { transition-delay: 0.28s; }
+    .stagger .reveal:nth-child(6) { transition-delay: 0.35s; }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE (non-timeline)  [UNCHANGED]
+    ═══════════════════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .work-grid { grid-template-columns: repeat(2,1fr); }
+      .wcard:nth-child(2n)  { border-right: none; }
+      .wcard:nth-child(3n)  { border-right: 1px solid var(--bdr); }
+      .wcard:nth-child(3):nth-child(2n),
+      .wcard:nth-child(3n):nth-child(even) { border-right: none; }
+      .wcard:nth-child(1),.wcard:nth-child(2),
+      .wcard:nth-child(3),.wcard:nth-child(4) { border-bottom: 1px solid var(--bdr); }
+      .wcard:nth-child(5),.wcard:nth-child(6) { border-bottom: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .tb-nav { display: none; }
+      .hbg    { display: flex; }
+      #topbar  { padding: 0 1.25rem; }
+      #hero    { padding: 6rem 1.25rem 4rem; }
+      .sec     { padding: 3.75rem 1.25rem; }
+      footer   { padding: 1.4rem 1.25rem; }
+
+      .work-grid { grid-template-columns: 1fr; }
+      .wcard            { border-right: none !important; }
+      .wcard:not(:last-child) { border-bottom: 1px solid var(--bdr) !important; }
+      .wcard:last-child { border-bottom: none !important; }
+
+      .contact-row { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cur-dot"></div>
+  <div id="cur-ring"></div>
+  <div id="prog"><div id="prog-fill"></div></div>
+
+  <!-- ── Loader [UNCHANGED] ── -->
+  <div id="loader">
+    <div class="ld-name">
+      <span>Debneil</span><span>&nbsp;</span><span>Dutt</span>
+    </div>
+    <div class="ld-bar"></div>
+    <div class="ld-sub">Kolkata &nbsp;·&nbsp; Developer &nbsp;·&nbsp; Athlete</div>
+  </div>
+
+  <div id="wrap">
+
+    <header>
+      <nav id="topbar" aria-label="Primary navigation">
+        <a href="#hero" class="tb-name">Debneil Dutt</a>
+        <div class="tb-right">
+          <ul class="tb-nav" role="list">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#journey">Journey</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="cheezebonez.html">Music</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <button class="icon-btn" id="theme-btn" aria-label="Toggle colour theme">☽</button>
+          <button class="hbg" id="hbg" aria-label="Open menu" aria-expanded="false">
+            <span class="hbg-bar"></span>
+            <span class="hbg-bar"></span>
+            <span class="hbg-bar"></span>
+          </button>
+        </div>
+      </nav>
+
+      <div id="drawer" aria-hidden="true">
+        <a href="#work"             class="dr-link">Work</a>
+        <a href="#about"            class="dr-link">About</a>
+        <a href="#journey"          class="dr-link">Journey</a>
+        <a href="achievements.html" class="dr-link">Achievements</a>
+        <a href="cheezebonez.html"  class="dr-link">Music</a>
+        <a href="#contact"          class="dr-link">Contact</a>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- ── Hero — MODIFIED: single h1 with full name for identity; eyebrow updated ── -->
+      <section id="hero" aria-labelledby="h1">
+        <!-- MODIFIED: eyebrow includes school name for E-E-A-T context -->
+        <p class="hero-eye">Kolkata, India &middot; La Martiniere for Boys &middot; Class 12 ISC</p>
+        <!-- MODIFIED: h1 now contains full name "Debneil Dutt" explicitly for Google identity -->
+        <h1 class="hero-h1" id="h1">Debneil<br><em>Dutt.</em></h1>
+        <!-- MODIFIED: bio now includes "Debneil Dutt" by name + key terms: student, athlete, taekwondo, tech enthusiast -->
+        <p class="hero-bio">
+          Debneil Dutt is a student, international taekwondo athlete, and tech enthusiast from Kolkata.
+          He builds things for the web, competes in sports at national and international level, and thinks carefully about how systems work.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">Computer Science</span>
+          <span class="pill">Web Development</span>
+          <span class="pill">Athletics</span>
+          <span class="pill">Taekwondo</span>
+          <span class="pill">Football</span>
+          <span class="pill">Music</span>
+        </div>
+        <!-- MODIFIED: CTA text changed from "View my work" to "View Tools Below" -->
+        <a href="#work" class="hero-down">View Tools Below &nbsp;↓</a>
+      </section>
+
+      <!-- ── Work [UNCHANGED] ── -->
+      <section id="work" class="sec" aria-labelledby="work-h2">
+        <p class="sec-label">Work</p>
+        <h2 class="sec-h2 reveal" id="work-h2">Tools I've built</h2>
+
+        <div class="work-grid stagger">
+          <a href="qrcode.html" class="wcard reveal">
+            <div class="wcard-num">01</div>
+            <span class="wcard-icon">📱</span>
+            <h3>QR Code Generator</h3>
+            <p>Custom QR codes with format options and instant download.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+          <a href="typetest.html" class="wcard reveal">
+            <div class="wcard-num">02</div>
+            <span class="wcard-icon">⌨️</span>
+            <h3>Typing Speed Test</h3>
+            <p>Real-time WPM and accuracy tracking with progress stats.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+          <a href="internetspeed.html" class="wcard reveal">
+            <div class="wcard-num">03</div>
+            <span class="wcard-icon">🚀</span>
+            <h3>Internet Speed Test</h3>
+            <p>Download, upload, and latency measurement tool.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+          <a href="deviceinfo.html" class="wcard reveal">
+            <div class="wcard-num">04</div>
+            <span class="wcard-icon">🖥️</span>
+            <h3>Device Information</h3>
+            <p>Browser specs, hardware details, and screen diagnostics.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+          <a href="worldmap.html" class="wcard reveal">
+            <div class="wcard-num">05</div>
+            <span class="wcard-icon">🌍</span>
+            <h3>World Map Explorer</h3>
+            <p>Interactive map with location and geographical data.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+          <a href="cheezebonez.html" class="wcard reveal">
+            <div class="wcard-num">06</div>
+            <span class="wcard-icon">🎵</span>
+            <h3>Music — Cheezebonez</h3>
+            <p>My music alias. Releases and creative work.</p>
+            <span class="wcard-arr">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ── About — MODIFIED: heading improved; body text enriched with name + keyword signals ── -->
+      <section id="about" class="sec" aria-labelledby="about-h2">
+        <p class="sec-label">About</p>
+        <!-- MODIFIED: heading phrased as a proper h2 for hierarchy -->
+        <h2 class="sec-h2 reveal" id="about-h2">About Debneil Dutt</h2>
+
+        <div class="about-grid">
+          <div class="about-meta reveal">
+            <div class="am-row">
+              <div class="am-label">Location</div>
+              <div class="am-val">Kolkata, India</div>
+            </div>
+            <div class="am-row">
+              <div class="am-label">Education</div>
+              <div class="am-val">Class 12, ISC</div>
+            </div>
+            <div class="am-row">
+              <div class="am-label">Sports</div>
+              <div class="am-val">Football · Athletics · Taekwondo</div>
+            </div>
+            <div class="am-row">
+              <div class="am-label">Taekwondo</div>
+              <div class="am-val">International Level</div>
+            </div>
+            <div class="am-row">
+              <div class="am-label">Music Alias</div>
+              <div class="am-val">Cheezebonez</div>
+            </div>
+          </div>
+
+          <!-- MODIFIED: paragraph now includes name 2× + keywords: student, athlete, taekwondo, tech enthusiast -->
+          <p class="about-text reveal">
+            Debneil Dutt is a student and athlete with a strong interest in computer science and technology.
+            As a tech enthusiast, he enjoys translating ideas into functional systems and building tools for the web.
+            Alongside academics, Debneil is actively involved in football, athletics, and international-level taekwondo —
+            competing at national and international competitions. He approaches every discipline with curiosity, discipline, and a focus on continuous improvement.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           JOURNEY / TIMELINE  [MODIFIED — horizontal zigzag]
+           Content (years + text) is identical to the original.
+           Only the wrapper markup structure changed.
+      ══════════════════════════════════════════════════ -->
+      <section id="journey" class="sec" aria-labelledby="journey-h2">
+        <p class="sec-label">Journey</p>
+        <!-- MODIFIED: heading now reads as a proper section h2 -->
+        <h2 class="sec-h2 reveal" id="journey-h2">Achievements &amp; Timeline</h2>
+
+        <!-- Scrollable outer wrapper -->
+        <div class="tl-track-outer">
+          <!-- Inner flex track — horizontal axis line is a child of this -->
+          <div class="tl-track" id="tl-track">
+
+            <!-- Central axis line -->
+            <div class="tl-axis"></div>
+
+            <!--
+              Each .tl-item gets either  class="tl-item above"
+              or  class="tl-item below"  — alternating for zigzag.
+              Structure per item:
+                above:  [.tl-card] [.tl-connector] [.tl-dot]   (column-reverse)
+                below:  [.tl-dot]  [.tl-connector] [.tl-card]  (column)
+            -->
+
+            <!-- 1 · 2009 · above -->
+            <div class="tl-item above" role="listitem">
+              <div class="tl-card">
+                <span class="tl-year">2009</span>
+                <span class="tl-title">Born</span>
+                <span class="tl-sub">Kolkata, India</span>
+              </div>
+              <div class="tl-connector"></div>
+              <div class="tl-dot"></div>
+            </div>
+
+            <!-- 2 · 2012 · below -->
+            <div class="tl-item below" role="listitem">
+              <div class="tl-dot"></div>
+              <div class="tl-connector"></div>
+              <div class="tl-card">
+                <span class="tl-year">2012</span>
+                <span class="tl-title">School life began</span>
+                <span class="tl-sub">La Martiniere for Boys</span>
+              </div>
+            </div>
+
+            <!-- 3 · 2019 · above -->
+            <div class="tl-item above" role="listitem">
+              <div class="tl-card">
+                <span class="tl-year">2019</span>
+                <span class="tl-title">First Taekwondo win</span>
+                <span class="tl-sub">Gold · Warrior Cup</span>
+              </div>
+              <div class="tl-connector"></div>
+              <div class="tl-dot"></div>
+            </div>
+
+            <!-- 4 · 2020 · below -->
+            <div class="tl-item below" role="listitem">
+              <div class="tl-dot"></div>
+              <div class="tl-connector"></div>
+              <div class="tl-card">
+                <span class="tl-year">2020</span>
+                <span class="tl-title">Interest in computers began</span>
+                <span class="tl-sub">Self-taught exploration</span>
+              </div>
+            </div>
+
+            <!-- 5 · 2022 · above -->
+            <div class="tl-item above" role="listitem">
+              <div class="tl-card">
+                <span class="tl-year">2022</span>
+                <span class="tl-title">First National Gold</span>
+                <span class="tl-sub">Speed Kicking · National Level</span>
+              </div>
+              <div class="tl-connector"></div>
+              <div class="tl-dot"></div>
+            </div>
+
+            <!-- 6 · 2023 · below -->
+            <div class="tl-item below" role="listitem">
+              <div class="tl-dot"></div>
+              <div class="tl-connector"></div>
+              <div class="tl-card">
+                <span class="tl-year">2023</span>
+                <span class="tl-title">First International Black Belt</span>
+                <span class="tl-sub">Taekwondo · International</span>
+              </div>
+            </div>
+
+            <!-- 7 · 2024 · above -->
+            <div class="tl-item above" role="listitem">
+              <div class="tl-card">
+                <span class="tl-year">2024</span>
+                <span class="tl-title">First Drums Certificate &amp; NCC Grade A</span>
+                <span class="tl-sub">Music · National Cadet Corps</span>
+              </div>
+              <div class="tl-connector"></div>
+              <div class="tl-dot"></div>
+            </div>
+
+            <!-- 8 · 2025 · below -->
+            <div class="tl-item below" role="listitem">
+              <div class="tl-dot"></div>
+              <div class="tl-connector"></div>
+              <div class="tl-card">
+                <span class="tl-year">2025</span>
+                <span class="tl-title">First International Gold in Taekwondo</span>
+                <span class="tl-sub">International Competition</span>
+              </div>
+            </div>
+
+            <!-- 9 · 2026 · above -->
+            <div class="tl-item above" role="listitem">
+              <div class="tl-card">
+                <span class="tl-year">2026</span>
+                <span class="tl-title">ARSSDC International Win</span>
+                <span class="tl-sub">Science · International</span>
+              </div>
+              <div class="tl-connector"></div>
+              <div class="tl-dot"></div>
+            </div>
+
+            <!-- 10 · 2026 upcoming · below -->
+            <div class="tl-item below upcoming" role="listitem">
+              <div class="tl-dot"></div>
+              <div class="tl-connector"></div>
+              <div class="tl-card">
+                <span class="tl-year">2026</span>
+                <span class="tl-title">School Leadership Role</span>
+                <span class="tl-sub">Upcoming</span>
+              </div>
+            </div>
+
+          </div><!-- /.tl-track -->
+        </div><!-- /.tl-track-outer -->
+      </section>
+
+      <!-- ── Contact [UNCHANGED] ── -->
+      <section id="contact" class="sec" aria-labelledby="contact-h2">
+        <p class="sec-label">Contact</p>
+        <div class="contact-row">
+          <h2 class="contact-head reveal" id="contact-h2">
+            Let's be<br><em>in touch.</em>
+          </h2>
+          <div class="contact-side reveal">
+            <a href="mailto:debneildutt.contact@gmail.com" class="email-link">
+              debneildutt.contact@gmail.com ↗
+            </a>
+            <p class="contact-note">
+              Open to conversations, collaborations, or questions. I'll get back when I can.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MODIFIED: footer enriched with social links matching sameAs schema -->
+    <footer aria-label="Site footer">
+      <span class="ft-name">Debneil Dutt</span>
+
+      <!-- ADDED: social links — replace href values with real profile URLs -->
+      <!-- These match the sameAs links in the JSON-LD schema above -->
+      <nav class="ft-social" aria-label="Social profiles">
+        <a href="https://github.com/"    target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </nav>
+
+      <span class="ft-copy">© 2025 &nbsp;·&nbsp; Kolkata, India</span>
+    </footer>
+
+  </div><!-- /#wrap -->
+
+  <script>
+    /* ── Touch ─────────────────────────────────── [UNCHANGED] */
+    if ('ontouchstart' in window) document.body.classList.add('touch');
+
+    /* ── Loader ─────────────────────────────────── [UNCHANGED] */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('out');
+        setTimeout(() => document.getElementById('wrap').classList.add('on'), 220);
+      }, 1750);
+    });
+
+    /* ── Cursor ─────────────────────────────────── [UNCHANGED] */
+    const dot  = document.getElementById('cur-dot');
+    const ring = document.getElementById('cur-ring');
+    let cx = innerWidth/2, cy = innerHeight/2, rx = cx, ry = cy;
+
+    document.addEventListener('mousemove', e => {
+      cx = e.clientX; cy = e.clientY;
+      dot.style.left = cx + 'px'; dot.style.top = cy + 'px';
+    });
+
+    (function loop() {
+      rx += (cx - rx) * 0.11;
+      ry += (cy - ry) * 0.11;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+
+    document.querySelectorAll('a, button, .pill').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = ring.style.height = '42px';
+        ring.style.borderColor = 'rgba(91,155,213,0.4)';
+        ring.style.background  = 'rgba(91,155,213,0.04)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = ring.style.height = '28px';
+        ring.style.borderColor = document.documentElement.dataset.theme === 'light'
+          ? 'rgba(17,17,17,0.18)' : 'rgba(240,238,234,0.2)';
+        ring.style.background = 'transparent';
+      });
+    });
+
+    /* ── Scroll progress ────────────────────────── [UNCHANGED] */
+    const fill = document.getElementById('prog-fill');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - innerHeight);
+      fill.style.width = Math.min(pct * 100, 100) + '%';
+    }, { passive: true });
+
+    /* ── Theme ──────────────────────────────────── [UNCHANGED] */
+    const themeBtn = document.getElementById('theme-btn');
+    let dark = localStorage.getItem('dd-theme') !== 'light';
+
+    function applyTheme() {
+      if (dark) {
+        document.documentElement.removeAttribute('data-theme');
+        themeBtn.textContent = '☽';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeBtn.textContent = '☀';
+      }
+      localStorage.setItem('dd-theme', dark ? 'dark' : 'light');
+    }
+    applyTheme();
+    themeBtn.addEventListener('click', () => { dark = !dark; applyTheme(); });
+
+    /* ── Hamburger ──────────────────────────────── [UNCHANGED] */
+    const hbg    = document.getElementById('hbg');
+    const drawer = document.getElementById('drawer');
+
+    hbg.addEventListener('click', () => {
+      const open = drawer.classList.toggle('open');
+      hbg.classList.toggle('open', open);
+      hbg.setAttribute('aria-expanded', open);
+      drawer.setAttribute('aria-hidden', !open);
+    });
+    document.querySelectorAll('.dr-link').forEach(a => a.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      hbg.classList.remove('open');
+      hbg.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+    }));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        drawer.classList.remove('open');
+        hbg.classList.remove('open');
+      }
+    });
+
+    /* ── Active nav ─────────────────────────────── [UNCHANGED] */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.tb-nav a[href^="#"]');
+
+    sections.forEach(sec => {
+      new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting)
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id));
+      }, { rootMargin: '-40% 0px -55% 0px' }).observe(sec);
+    });
+
+    /* ── Scroll reveal ──────────────────────────── [UNCHANGED] */
+    const revEls = document.querySelectorAll('.reveal');
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+    setTimeout(() => revEls.forEach(el => revObs.observe(el)), 1950);
+
+    /* ── Timeline reveal ────────────────────────── [MODIFIED]
+       Observes the track container; when it enters the viewport,
+       reveals the axis and staggers each milestone item.          */
+    const tlTrack = document.getElementById('tl-track');
+    const tlItems = document.querySelectorAll('.tl-item');
+
+    const tlObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        // reveal the central axis line
+        tlTrack.classList.add('revealed');
+
+        // stagger-reveal each item with a small delay
+        tlItems.forEach((item, i) => {
+          setTimeout(() => item.classList.add('in'), i * 90);
+        });
+
+        tlObs.disconnect();
+      }
+    }, { threshold: 0.05 });
+
+    const journeySec = document.getElementById('journey');
+    if (journeySec) setTimeout(() => tlObs.observe(journeySec), 1950);
+  </script>
+
+</body>
+</html>

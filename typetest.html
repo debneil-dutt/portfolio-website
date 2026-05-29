@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test - Debneil Dutt</title>
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #0099cc;
+            --border-color: rgba(0, 212, 255, 0.3);
+            --shadow-color: rgba(0, 212, 255, 0.2);
+            --correct-color: #4ecdc4;
+            --incorrect-color: #ff6b6b;
+            --current-color: #f39c12;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: linear-gradient(135deg, #f0f2f5 0%, #ffffff 50%, #e8eef7 100%);
+            --bg-secondary: rgba(0, 0, 0, 0.05);
+            --bg-card: rgba(0, 0, 0, 0.03);
+            --text-primary: #2c3e50;
+            --text-secondary: #555555;
+            --accent-primary: #3498db;
+            --accent-secondary: #2980b9;
+            --border-color: rgba(52, 152, 219, 0.3);
+            --shadow-color: rgba(52, 152, 219, 0.2);
+            --correct-color: #27ae60;
+            --incorrect-color: #e74c3c;
+            --current-color: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: none;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        body.cursor-disabled { cursor: default; }
+        body.loading { overflow: hidden; }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-size: 6rem;
+            font-weight: 900;
+            font-family: 'Arial Black', sans-serif;
+            position: relative;
+            color: transparent;
+            -webkit-text-stroke: 3px var(--accent-primary);
+        }
+
+        .loading-logo::before {
+            content: '⌨️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b, #4ecdc4, #45b7d1, #f39c12);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fillUp 3s ease-in-out, colorShift 3s ease-in-out;
+            clip-path: inset(100% 0 0 0);
+        }
+
+        @keyframes fillUp {
+            0% { clip-path: inset(100% 0 0 0); }
+            100% { clip-path: inset(0% 0 0 0); }
+        }
+
+        @keyframes colorShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .loading-text {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+            opacity: 1;
+        }
+
+        .cursor.disabled { opacity: 0; }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .cursor-trail.disabled { opacity: 0; }
+
+        /* Settings Panel */
+        .settings-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-toggle:hover {
+            transform: rotate(90deg);
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            min-width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .settings-panel.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .setting-group h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .setting-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item label {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 45px;
+            height: 22px;
+            background: var(--bg-secondary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active { background: var(--accent-primary); }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active::after { transform: translateX(23px); }
+
+        .color-picker {
+            width: 40px;
+            height: 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px var(--shadow-color);
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--shadow-color), var(--border-color));
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Typing Test Container */
+        .typing-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--text-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px var(--shadow-color)); }
+            to { filter: drop-shadow(0 0 20px var(--shadow-color)); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Test Controls */
+        .test-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .time-selector {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .time-selector.active,
+        .time-selector:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+
+        /* Stats Display */
+        .stats-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Text Display */
+        .text-display {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .text-display.game-active {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        .word {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .word.current {
+            background: var(--current-color);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(243, 156, 18, 0.3);
+        }
+
+        .word.correct {
+            background: var(--correct-color);
+            color: white;
+        }
+
+        .word.incorrect {
+            background: var(--incorrect-color);
+            color: white;
+        }
+
+        .char {
+            position: relative;
+        }
+
+        .char.correct {
+            color: var(--correct-color);
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .char.incorrect {
+            color: var(--incorrect-color);
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .char.current {
+            background: var(--accent-primary);
+            color: white;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Input Area */
+        .input-area {
+            position: relative;
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: all 0.3s ease;
+            resize: none;
+        }
+
+        .typing-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        .typing-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Control Buttons */
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 212, 255, 0.4);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+        }
+
+        .reset-btn:hover {
+            box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Results Modal */
+        .results-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .results-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .results-content {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .results-modal.active .results-content {
+            transform: scale(1);
+        }
+
+        .results-title {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .result-item {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .close-results {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .close-results:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .time-remaining {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .typing-container {
+                margin: 80px 10px 20px;
+                padding: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .text-display {
+                font-size: 1.2rem;
+                padding: 20px;
+                min-height: 150px;
+            }
+
+            .stats-display {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .test-controls {
+                gap: 10px;
+            }
+
+            .time-selector {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+
+            .results-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .home-btn {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="loading">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div>
+            <div class="loading-logo">⌨️</div>
+            <div class="loading-text">Loading Typing Test<span class="loading-dots"></span></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Custom Cursor -->
+        <div class="cursor"></div>
+        
+        <!-- Home Button -->
+        <a href="index.html" class="home-btn">
+            🏠 Go Back to Home
+        </a>
+
+        <!-- Settings -->
+        <div class="settings-toggle" onclick="toggleSettings()">⚙️</div>
+        <div class="settings-panel" id="settingsPanel">
+            <div class="setting-group">
+                <h4>🎨 Theme Settings</h4>
+                <div class="setting-item">
+                    <label>Dark Mode</label>
+                    <div class="toggle-switch active" id="themeToggle" onclick="toggleTheme()"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h4>🎨 Color Customization</h4>
+                <div class="setting-item">
+                    <label>Primary Accent</label>
+                    <input type="color" class="color-picker" id="primaryColor" value="#00d4ff" onchange="updateColors()">
+                </div>
+                <div class="setting-item">
+                    <label>Secondary Accent</label>
+                    <input type="color" class="color-picker" id="secondaryColor" value="#0099cc" onchange="updateColors()">
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h4>💫 Effects</h4>
+                <div class="setting-item">
+                    <label>Mouse Trail</label>
+                    <div class="toggle-switch active" id="trailToggle" onclick="toggleMouseTrail()"></div>
+                </div>
+                <div class="setting-item">
+                    <label>Animations</label>
+                    <div class="toggle-switch active" id="animationToggle" onclick="toggleAnimations()"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h4>🔧 Reset</h4>
+                <button class="control-btn" onclick="resetSettings()" style="width: 100%; margin: 0;">Reset to Default</button>
+            </div>
+        </div>
+        
+        <!-- Background Animation -->
+        <div class="bg-animation">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+
+        <!-- Typing Test Container -->
+        <div class="typing-container">
+            <div class="hero">
+                <h1>⌨️ Typing Speed Test</h1>
+                <p>Test your typing speed and accuracy with this fun challenge!</p>
+            </div>
+
+            <!-- Test Controls -->
+            <div class="test-controls">
+                <div class="time-selector active" data-time="30">30s</div>
+                <div class="time-selector" data-time="60">1min</div>
+                <div class="time-selector" data-time="120">2min</div>
+                <div class="time-selector" data-time="300">5min</div>
+            </div>
+
+            <!-- Stats Display -->
+            <div class="stats-display">
+                <div class="stat-card">
+                    <div class="stat-value" id="wpmStat">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracyStat">100%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="timeStat">30</div>
+                    <div class="stat-label">Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charactersStat">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="time-remaining" id="timeRemaining">Click start to begin</div>
+            </div>
+
+            <!-- Text Display -->
+            <div class="text-display" id="textDisplay">
+                <!-- Text will be populated by JavaScript -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <textarea 
+                    class="typing-input" 
+                    id="typingInput" 
+                    placeholder="Click start and begin typing..."
+                    disabled
+                    rows="3"
+                ></textarea>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="control-buttons">
+                <button class="control-btn" id="startBtn" onclick="startTest()">
+                    ▶️ Start Test
+                </button>
+                <button class="control-btn reset-btn" onclick="resetTest()">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="results-modal" id="resultsModal">
+            <div class="results-content">
+                <div class="results-title">🎉 Test Complete!</div>
+                <div class="results-stats">
+                    <div class="result-item">
+                        <div class="result-value" id="finalWpm">0</div>
+                        <div class="result-label">Words Per Minute</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value" id="finalAccuracy">100%</div>
+                        <div class="result-label">Accuracy</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value" id="finalCharacters">0</div>
+                        <div class="result-label">Characters Typed</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value" id="finalErrors">0</div>
+                        <div class="result-label">Total Errors</div>
+                    </div>
+                </div>
+                <button class="close-results" onclick="closeResults()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let mouseTrailEnabled = true;
+        let animationsEnabled = true;
+        let isDarkMode = true;
+        const cursor = document.querySelector('.cursor');
+        const trails = [];
+        let mouseX = 0, mouseY = 0;
+
+        // Typing test variables
+        let testActive = false;
+        let testDuration = 30;
+        let startTime;
+        let endTime;
+        let timerInterval;
+        let currentWordIndex = 0;
+        let currentCharIndex = 0;
+        let correctChars = 0;
+        let incorrectChars = 0;
+        let totalChars = 0;
+        let words = [];
+        let userInput = '';
+
+        // Sample texts for typing test
+        const sampleTexts = [
+            "The quick brown fox jumps over the lazy dog near the riverbank where children often play during sunny afternoons while their parents watch from comfortable benches",
+            "Technology has revolutionized the way we communicate and work in modern society making remote collaboration easier than ever before imagined",
+            "Artificial intelligence and machine learning are transforming industries by automating complex tasks and providing valuable insights from massive datasets",
+            "Climate change represents one of the greatest challenges facing humanity today requiring immediate action from governments businesses and individuals worldwide",
+            "The art of cooking combines creativity with science as chefs experiment with flavors textures and presentation to create memorable dining experiences",
+            "Space exploration continues to captivate human imagination as we discover new planets and search for signs of life beyond our solar system",
+            "Education plays a crucial role in personal development and societal progress by empowering individuals with knowledge and critical thinking skills",
+            "Music has the unique ability to transcend cultural boundaries and connect people through shared emotions and universal rhythms that resonate deeply",
+            "Sustainable development requires balancing economic growth with environmental protection to ensure a better future for coming generations",
+            "The internet has created unprecedented opportunities for global connectivity while also presenting new challenges related to privacy and security",
+            "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are still perfectly edible.",
+            "A group of flamingos is called a 'flamboyance' which perfectly describes their vibrant colors and graceful movements in the water.",
+            "Fear is loud but often wrong. It tells you you will fail before you even try. But growth lives right past fear’s border. Each time you push through discomfort, you gain confidence and power."
+        ];
+
+        // Loading screen functionality
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.body.classList.remove('loading');
+                setTimeout(() => {
+                    document.getElementById('mainContent').classList.add('visible');
+                    initializeTest();
+                }, 400);
+            }, 3500);
+        });
+
+        // Create trail elements
+        for (let i = 0; i < 15; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push({
+                element: trail,
+                x: 0,
+                y: 0,
+                opacity: 1 - (i * 0.06)
+            });
+        }
+
+        // Settings functions
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            const toggle = document.getElementById('themeToggle');
+            isDarkMode = !isDarkMode;
+            toggle.classList.toggle('active');
+            
+            if (isDarkMode) {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+            }
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        function toggleMouseTrail() {
+            const toggle = document.getElementById('trailToggle');
+            mouseTrailEnabled = !mouseTrailEnabled;
+            toggle.classList.toggle('active');
+            
+            if (mouseTrailEnabled) {
+                cursor.classList.remove('disabled');
+                trails.forEach(trail => trail.element.classList.remove('disabled'));
+                document.body.classList.remove('cursor-disabled');
+            } else {
+                cursor.classList.add('disabled');
+                trails.forEach(trail => trail.element.classList.add('disabled'));
+                document.body.classList.add('cursor-disabled');
+            }
+            localStorage.setItem('mouseTrail', mouseTrailEnabled);
+        }
+
+        function toggleAnimations() {
+            const toggle = document.getElementById('animationToggle');
+            animationsEnabled = !animationsEnabled;
+            toggle.classList.toggle('active');
+            
+            if (!animationsEnabled) {
+                const style = document.createElement('style');
+                style.textContent = '*, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }';
+                document.head.appendChild(style);
+            }
+            localStorage.setItem('animations', animationsEnabled);
+        }
+
+        function updateColors() {
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            
+            document.documentElement.style.setProperty('--accent-primary', primaryColor);
+            document.documentElement.style.setProperty('--accent-secondary', secondaryColor);
+            
+            localStorage.setItem('primaryColor', primaryColor);
+            localStorage.setItem('secondaryColor', secondaryColor);
+        }
+
+        function resetSettings() {
+            document.getElementById('primaryColor').value = '#00d4ff';
+            document.getElementById('secondaryColor').value = '#0099cc';
+            document.getElementById('themeToggle').classList.add('active');
+            document.getElementById('trailToggle').classList.add('active');
+            document.getElementById('animationToggle').classList.add('active');
+            
+            isDarkMode = true;
+            mouseTrailEnabled = true;
+            animationsEnabled = true;
+            
+            document.body.removeAttribute('data-theme');
+            updateColors();
+            localStorage.clear();
+        }
+
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            if (!mouseTrailEnabled) return;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+        });
+
+        // Animate trails
+        function animateTrails() {
+            if (!mouseTrailEnabled) {
+                requestAnimationFrame(animateTrails);
+                return;
+            }
+            
+            let currentX = mouseX;
+            let currentY = mouseY;
+            
+            trails.forEach((trail, index) => {
+                trail.x += (currentX - trail.x) * 0.3;
+                trail.y += (currentY - trail.y) * 0.3;
+                
+                trail.element.style.left = trail.x - 4 + 'px';
+                trail.element.style.top = trail.y - 4 + 'px';
+                trail.element.style.opacity = trail.opacity;
+                
+                currentX = trail.x;
+                currentY = trail.y;
+            });
+            
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Time selector functionality
+        document.querySelectorAll('.time-selector').forEach(selector => {
+            selector.addEventListener('click', () => {
+                if (testActive) return;
+                
+                document.querySelectorAll('.time-selector').forEach(s => s.classList.remove('active'));
+                selector.classList.add('active');
+                testDuration = parseInt(selector.dataset.time);
+                document.getElementById('timeStat').textContent = testDuration;
+                document.getElementById('timeRemaining').textContent = `${testDuration} seconds remaining`;
+                updateProgress();
+            });
+        });
+
+        // Initialize test
+        function initializeTest() {
+            generateText();
+            resetStats();
+            updateDisplay();
+        }
+
+        // Generate random text
+        function generateText() {
+            const randomText = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
+            words = randomText.split(' ');
+            
+            const textDisplay = document.getElementById('textDisplay');
+            textDisplay.innerHTML = '';
+            
+            words.forEach((word, wordIndex) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                wordSpan.dataset.wordIndex = wordIndex;
+                
+                [...word].forEach((char, charIndex) => {
+                    const charSpan = document.createElement('span');
+                    charSpan.className = 'char';
+                    charSpan.textContent = char;
+                    charSpan.dataset.charIndex = charIndex;
+                    wordSpan.appendChild(charSpan);
+                });
+                
+                textDisplay.appendChild(wordSpan);
+            });
+            
+            // Highlight first word and character
+            if (words.length > 0) {
+                textDisplay.children[0].classList.add('current');
+                textDisplay.children[0].children[0].classList.add('current');
+            }
+        }
+
+        // Start test
+        function startTest() {
+            if (testActive) return;
+            
+            testActive = true;
+            startTime = Date.now();
+            currentWordIndex = 0;
+            currentCharIndex = 0;
+            
+            const input = document.getElementById('typingInput');
+            const startBtn = document.getElementById('startBtn');
+            const textDisplay = document.getElementById('textDisplay');
+            
+            input.disabled = false;
+            input.focus();
+            input.placeholder = 'Start typing...';
+            startBtn.textContent = '⏸️ Test Active';
+            startBtn.disabled = true;
+            textDisplay.classList.add('game-active');
+            
+            // Start timer
+            timerInterval = setInterval(updateTimer, 100);
+            
+            // Add input event listener
+            input.addEventListener('input', handleInput);
+            input.addEventListener('keydown', handleKeyDown);
+        }
+
+        // Handle input
+        function handleInput(e) {
+            if (!testActive) return;
+            
+            userInput = e.target.value;
+            const words = userInput.split(' ');
+            const currentWord = words[words.length - 1];
+            
+            updateWordHighlighting(words, currentWord);
+            updateStats();
+        }
+
+        // Handle special keys
+        function handleKeyDown(e) {
+            if (!testActive) return;
+            
+            // Handle space key for word completion
+            if (e.key === ' ') {
+                const words = userInput.split(' ');
+                if (words.length <= currentWordIndex + 1) {
+                    currentWordIndex++;
+                    currentCharIndex = 0;
+                    
+                    if (currentWordIndex >= document.querySelectorAll('.word').length) {
+                        // Test completed by finishing all words
+                        endTest();
+                        return;
+                    }
+                    
+                    // Update current word highlighting
+                    document.querySelectorAll('.word').forEach((word, index) => {
+                        word.classList.remove('current');
+                        if (index === currentWordIndex) {
+                            word.classList.add('current');
+                        }
+                    });
+                }
+            }
+        }
+
+        // Update word highlighting
+        function updateWordHighlighting(typedWords, currentWord) {
+            const wordElements = document.querySelectorAll('.word');
+            
+            typedWords.forEach((typedWord, wordIndex) => {
+                if (wordIndex >= wordElements.length) return;
+                
+                const wordElement = wordElements[wordIndex];
+                const expectedWord = words[wordIndex];
+                const chars = wordElement.querySelectorAll('.char');
+                
+                wordElement.classList.remove('current', 'correct', 'incorrect');
+                
+                if (wordIndex < typedWords.length - 1) {
+                    // Completed word
+                    if (typedWord === expectedWord) {
+                        wordElement.classList.add('correct');
+                    } else {
+                        wordElement.classList.add('incorrect');
+                    }
+                } else {
+                    // Current word being typed
+                    wordElement.classList.add('current');
+                }
+                
+                // Update character highlighting
+                chars.forEach((char, charIndex) => {
+                    char.classList.remove('current', 'correct', 'incorrect');
+                    
+                    if (wordIndex === typedWords.length - 1) {
+                        // Current word
+                        if (charIndex < typedWord.length) {
+                            if (typedWord[charIndex] === expectedWord[charIndex]) {
+                                char.classList.add('correct');
+                            } else {
+                                char.classList.add('incorrect');
+                            }
+                        } else if (charIndex === typedWord.length) {
+                            char.classList.add('current');
+                        }
+                    } else if (wordIndex < typedWords.length - 1) {
+                        // Completed word
+                        if (charIndex < typedWord.length) {
+                            if (typedWord[charIndex] === expectedWord[charIndex]) {
+                                char.classList.add('correct');
+                            } else {
+                                char.classList.add('incorrect');
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        // Update timer
+        function updateTimer() {
+            if (!testActive) return;
+            
+            const elapsed = (Date.now() - startTime) / 1000;
+            const remaining = Math.max(0, testDuration - elapsed);
+            
+            document.getElementById('timeStat').textContent = Math.ceil(remaining);
+            document.getElementById('timeRemaining').textContent = `${Math.ceil(remaining)} seconds remaining`;
+            
+            updateProgress();
+            
+            if (remaining <= 0) {
+                endTest();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const elapsed = testActive ? (Date.now() - startTime) / 1000 : 0;
+            const progress = Math.min(100, (elapsed / testDuration) * 100);
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Update stats
+        function updateStats() {
+            if (!testActive) return;
+            
+            const elapsed = (Date.now() - startTime) / 1000;
+            const typedText = userInput;
+            const expectedText = words.join(' ').substring(0, typedText.length);
+            
+            // Calculate correct and incorrect characters
+            correctChars = 0;
+            incorrectChars = 0;
+            
+            for (let i = 0; i < typedText.length; i++) {
+                if (i < expectedText.length && typedText[i] === expectedText[i]) {
+                    correctChars++;
+                } else {
+                    incorrectChars++;
+                }
+            }
+            
+            totalChars = typedText.length;
+            
+            // Calculate WPM (assuming average word length of 5 characters)
+            const wpm = Math.round((correctChars / 5) / (elapsed / 60)) || 0;
+            
+            // Calculate accuracy
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+            
+            // Update display
+            document.getElementById('wpmStat').textContent = wpm;
+            document.getElementById('accuracyStat').textContent = accuracy + '%';
+            document.getElementById('charactersStat').textContent = totalChars;
+        }
+
+        // End test
+        function endTest() {
+            if (!testActive) return;
+            
+            testActive = false;
+            endTime = Date.now();
+            
+            clearInterval(timerInterval);
+            
+            const input = document.getElementById('typingInput');
+            const startBtn = document.getElementById('startBtn');
+            const textDisplay = document.getElementById('textDisplay');
+            
+            input.disabled = true;
+            startBtn.textContent = '▶️ Start Test';
+            startBtn.disabled = false;
+            textDisplay.classList.remove('game-active');
+            
+            // Remove event listeners
+            input.removeEventListener('input', handleInput);
+            input.removeEventListener('keydown', handleKeyDown);
+            
+            // Show results
+            showResults();
+        }
+
+        // Show results modal
+        function showResults() {
+            const elapsed = (endTime - startTime) / 1000;
+            const wpm = Math.round((correctChars / 5) / (elapsed / 60)) || 0;
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+            
+            document.getElementById('finalWpm').textContent = wpm;
+            document.getElementById('finalAccuracy').textContent = accuracy + '%';
+            document.getElementById('finalCharacters').textContent = totalChars;
+            document.getElementById('finalErrors').textContent = incorrectChars;
+            
+            document.getElementById('resultsModal').classList.add('active');
+        }
+
+        // Close results modal
+        function closeResults() {
+            document.getElementById('resultsModal').classList.remove('active');
+            resetTest();
+        }
+
+        // Reset test
+        function resetTest() {
+            if (testActive) {
+                clearInterval(timerInterval);
+                testActive = false;
+            }
+            
+            const input = document.getElementById('typingInput');
+            const startBtn = document.getElementById('startBtn');
+            const textDisplay = document.getElementById('textDisplay');
+            
+            input.value = '';
+            input.disabled = true;
+            input.placeholder = 'Click start to begin...';
+            startBtn.textContent = '▶️ Start Test';
+            startBtn.disabled = false;
+            textDisplay.classList.remove('game-active');
+            
+            userInput = '';
+            currentWordIndex = 0;
+            currentCharIndex = 0;
+            
+            generateText();
+            resetStats();
+            updateDisplay();
+            
+            // Remove event listeners
+            input.removeEventListener('input', handleInput);
+            input.removeEventListener('keydown', handleKeyDown);
+        }
+
+        // Reset stats
+        function resetStats() {
+            correctChars = 0;
+            incorrectChars = 0;
+            totalChars = 0;
+            startTime = null;
+            endTime = null;
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById('wpmStat').textContent = '0';
+            document.getElementById('accuracyStat').textContent = '100%';
+            document.getElementById('timeStat').textContent = testDuration;
+            document.getElementById('charactersStat').textContent = '0';
+            document.getElementById('timeRemaining').textContent = testDuration > 0 ? `${testDuration} seconds` : 'Click start to begin';
+            document.getElementById('progressFill').style.width = '0%';
+        }
+
+        // Load settings on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const savedMouseTrail = localStorage.getItem('mouseTrail');
+            const savedAnimations = localStorage.getItem('animations');
+            const savedPrimaryColor = localStorage.getItem('primaryColor');
+            const savedSecondaryColor = localStorage.getItem('secondaryColor');
+            
+            if (savedTheme === 'light') {
+                isDarkMode = false;
+                document.body.setAttribute('data-theme', 'light');
+                document.getElementById('themeToggle').classList.remove('active');
+            }
+            
+            if (savedMouseTrail === 'false') {
+                mouseTrailEnabled = false;
+                document.getElementById('trailToggle').classList.remove('active');
+                toggleMouseTrail();
+            }
+            
+            if (savedAnimations === 'false') {
+                animationsEnabled = false;
+                document.getElementById('animationToggle').classList.remove('active');
+                toggleAnimations();
+            }
+            
+            if (savedPrimaryColor) {
+                document.getElementById('primaryColor').value = savedPrimaryColor;
+            }
+            if (savedSecondaryColor) {
+                document.getElementById('secondaryColor').value = savedSecondaryColor;
+            }
+            
+            if (savedPrimaryColor || savedSecondaryColor) {
+                updateColors();
+            }
+        });
+
+        // Close settings when clicking outside
+        document.addEventListener('click', (e) => {
+            const settingsPanel = document.getElementById('settingsPanel');
+            const settingsToggle = document.querySelector('.settings-toggle');
+            
+            if (!settingsPanel.contains(e.target) && !settingsToggle.contains(e.target)) {
+                settingsPanel.classList.remove('active');
+            }
+        });
+
+        // Prevent context menu on right click for better UX
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // ESC to reset test
+            if (e.key === 'Escape' && testActive) {
+                resetTest();
+            }
+            
+            // Enter to start test (when not active)
+            if (e.key === 'Enter' && !testActive && !document.getElementById('resultsModal').classList.contains('active')) {
+                startTest();
+            }
+        });
+    </script>
+</body>
+</html>
