@@ -1,23 +1,24 @@
-# portfolio-website
 # Debneil Dutt — Personal Portfolio Website
 
-This repository contains the source code for my personal portfolio website:
+The source code for my personal portfolio website can be found here:
+
 [https://debneildutt.com](https://debneildutt.com)
 
 ## About
 
-It is a personal portfolio website created to showcase my achievements, projects/research work, extracurricular activities, and technical interests.
-
-The website also includes interactive and useful web tools for users.
+This website is designed to display my personal accomplishments, research/ project work, hobbies, and my technical skills. It includes tools that are both informative and interactive for users.
 
 ## Features
 
-* Portfolio & achievements showcase
-* Interactive web tools
-* Responsive modern design
-* Contact section
+- Portfolio & achievements
+
+- Interactive tools
+
+- Modern, responsive design
+
+- Contact form
 
 ## License
 
-Licensed under the MIT License.
+MIT License.
 
